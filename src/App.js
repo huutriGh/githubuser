@@ -1,24 +1,30 @@
-import logo from './logo.svg';
-import './App.css';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
+import IssuesPage from './pages/Issues.page';
+import UserPage from './pages/Users.page';
+import ApolloClient from 'apollo-boost';
+import { ApolloProvider } from 'react-apollo';
+const apolloClient = new ApolloClient({
+  uri: process.env.REACT_APP_GITHUB_API,
+  headers: {
+    authorization: `Bearer ${process.env.REACT_APP_ACCESS_TOKEN}`,
+  },
+});
+
+const theme = createTheme();
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ThemeProvider theme={theme}>
+      <ApolloProvider client={apolloClient}>
+        <BrowserRouter>
+          <Routes>
+            <Route exact path='/' element={<UserPage />} />
+            <Route exact path='/Issues' element={<IssuesPage />} />
+          </Routes>
+        </BrowserRouter>
+      </ApolloProvider>
+    </ThemeProvider>
   );
 }
 
