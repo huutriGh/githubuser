@@ -4,9 +4,8 @@ import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import ListUser from '../components/ListUser/ListUser.component';
 import Repository from '../components/Repository/Repository.component';
-import Search from '../components/Search/Search.Component';
+import Search from '../components/Search/Search.component';
 import userStyles from './Users.style';
-
 
 const UserPage = () => {
   const classes = userStyles();
@@ -38,6 +37,5 @@ const UserPage = () => {
     </Container>
   );
 };
-
 
 export default UserPage;

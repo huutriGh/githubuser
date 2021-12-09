@@ -97,3 +97,24 @@ export const SearchIssueQuery = gql`
     }
   }
 `;
+export const CreateIssue = gql`
+  mutation createIssue(
+    $title: String!
+    $project: String!
+    $description: String
+  ) {
+    createIssue(
+      input: { title: $title, repositoryId: $project, body: $description }
+    ) {
+      issue {
+        createdAt
+        title
+        url
+        author {
+          login
+        }
+      }
+    }
+  }
+`;
+//R_kgDOGgBLEg

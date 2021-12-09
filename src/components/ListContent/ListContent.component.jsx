@@ -108,7 +108,7 @@ export default function ListContent({ rows = [], name, detail }) {
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
 
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -125,9 +125,9 @@ export default function ListContent({ rows = [], name, detail }) {
     setSelected([]);
   };
 
-  const handleClick = (event, name, detail, nameWithOwner) => {
+  const handleClick = (event, name, detail, nameWithOwner, reposId) => {
     if (nameWithOwner) {
-      navigate('/Issues', { state: { name, detail, nameWithOwner } });
+      navigate('/Issues', { state: { name, detail, nameWithOwner, reposId } });
     }
   };
 
@@ -179,7 +179,8 @@ export default function ListContent({ rows = [], name, detail }) {
                           event,
                           row.name,
                           row.detail,
-                          row.nameWithOwner
+                          row.nameWithOwner,
+                          row.reposId
                         )
                       }
                       role='checkbox'

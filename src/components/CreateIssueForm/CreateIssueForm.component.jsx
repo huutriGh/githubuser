@@ -1,15 +1,64 @@
-import * as React from 'react';
 import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
-
 import DialogTitle from '@mui/material/DialogTitle';
+import TextField from '@mui/material/TextField';
+import React, { useState } from 'react';
+import { withApollo } from 'react-apollo';
+import { connect } from 'react-redux';
+import {
+  createIssueFail,
+  createIssueStart,
+  createIssueSuccess,
+} from '../../redux/issue/issue.actions';
+import { CreateIssue } from './../../GithubQuery/GithubQuery';
 
-const CreateIssueForm = ({ isOpen, handleClose }) => {
+const CreateIssueForm = ({
+  isOpen,
+  reposId,
+  handleClose,
+  client,
+  createIssueStart,
+  createIssueSuccess,
+  createIssueFail,
+}) => {
+  const initState = {
+    repositoryId: reposId,
+    title: '',
+    body: '',
+  };
+
+  const [state, setState] = useState(initState);
   const onHandleClose = () => {
+    setState(initState);
     handleClose();
+  };
+  const handleChange = (event) => {
+    setState((state) => ({
+      ...state,
+      [event.target.name]:
+        event.target.type === 'checkbox'
+          ? event.target.checked
+          : event.target.value,
+    }));
+  };
+
+  const createIssue = async () => {
+    try {
+      createIssueStart();
+      const { data } = await client.mutate({
+        mutation: CreateIssue,
+        variables: {
+          project: `${state.repositoryId}`,
+          title: state.title,
+          description: state.body,
+        },
+      });
+      createIssueSuccess(data);
+    } catch (error) {
+      createIssueFail(error);
+    }
   };
 
   return (
@@ -21,28 +70,32 @@ const CreateIssueForm = ({ isOpen, handleClose }) => {
             autoFocus
             size='small'
             margin='dense'
-            id='name'
+            name='title'
             label='Title'
             fullWidth
             variant='outlined'
+            value={state.title}
+            onChange={handleChange}
           />
 
           <TextField
             margin='dense'
             size='small'
-            id='name'
+            name='body'
             label='Description'
+            value={state.body}
             multiline
             rows={6}
             fullWidth
             variant='outlined'
+            onChange={handleChange}
           />
         </DialogContent>
         <DialogActions>
           <Button onClick={onHandleClose} variant='contained' color='secondary'>
             Cancel
           </Button>
-          <Button onClick={onHandleClose} variant='contained'>
+          <Button onClick={createIssue} variant='contained'>
             Create
           </Button>
         </DialogActions>
@@ -50,5 +103,9 @@ const CreateIssueForm = ({ isOpen, handleClose }) => {
     </div>
   );
 };
-
-export default CreateIssueForm;
+const mapDispatchToProps = (dispatch) => ({
+  createIssueStart: () => dispatch(createIssueStart()),
+  createIssueSuccess: (issues) => dispatch(createIssueSuccess(issues)),
+  createIssueFail: (error) => dispatch(createIssueFail(error)),
+});
+export default withApollo(connect(null, mapDispatchToProps)(CreateIssueForm));

@@ -1,23 +1,23 @@
 import { Grid } from '@mui/material';
 import Avatar from '@mui/material/Avatar';
-import Stack from '@mui/material/Stack';
-import { connect } from 'react-redux';
 import IconButton from '@mui/material/IconButton';
+import Stack from '@mui/material/Stack';
+import Typography from '@mui/material/Typography';
+import React from 'react';
+import { withApollo } from 'react-apollo';
+import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
+import UserType from '../../redux/users/user.type';
+import { SearchReposQuery } from './../../GithubQuery/GithubQuery';
+import {
+  fetchReposFail,
+  fetchReposStart,
+  fetchReposSuccess,
+} from './../../redux/repository/repository.actions';
 import {
   selectFetchUserStatus,
   selectUser,
 } from './../../redux/users/user.selector';
-import Typography from '@mui/material/Typography';
-import React from 'react';
-import UserType from '../../redux/users/user.type';
-import { withApollo } from 'react-apollo';
-import { SearchReposQuery } from './../../GithubQuery/GithubQuery';
-import {
-  fetchReposStart,
-  fetchReposSuccess,
-  fetchReposFail,
-} from './../../redux/repository/repository.actions';
 
 const UserList = (props) => {
   const {

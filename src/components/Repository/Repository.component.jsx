@@ -1,18 +1,19 @@
+import Typography from '@mui/material/Typography';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
-import Typography from '@mui/material/Typography';
-import ReposType from './../../redux/repository/repository.type.js';
 import {
   selectRepos,
   selectRepostatus,
 } from '../../redux/repository/repository.selector';
 import ListContent from '../ListContent/ListContent.component';
+import ReposType from './../../redux/repository/repository.type.js';
 
-function createData(name, detail, nameWithOwner, user) {
+function createData(name, detail, nameWithOwner, reposId) {
   return {
     name,
     detail,
     nameWithOwner,
+    reposId,
   };
 }
 
@@ -21,7 +22,8 @@ const Repository = ({ repos = [], fetchStatus }) => {
     createData(
       repos.node.name,
       `${repos.node.stargazers.totalCount} Star / ${repos.node.watchers.totalCount} Watching`,
-      repos.node.nameWithOwner
+      repos.node.nameWithOwner,
+      repos.node.id
     )
   );
 

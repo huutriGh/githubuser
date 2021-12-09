@@ -9,6 +9,7 @@ import {
   fetchUserSuccess,
   fetchUserFail,
 } from '../../redux/users/user.actions';
+import { initialReposState } from '../../redux/repository/repository.actions';
 import { connect } from 'react-redux';
 import InputAdornment from '@mui/material/InputAdornment';
 import { SearchUsersQuery } from './../../GithubQuery/GithubQuery';
@@ -17,7 +18,8 @@ const Search = (props) => {
   const [state, setState] = useState({
     queryString: '',
   });
-  const { client, getUserStart, getUserSuccess, getUserFail } = props;
+  const { client, getUserStart, getUserSuccess, getUserFail, initialRepos } =
+    props;
 
   const executeSearch = async (options) => {
     const query = state.queryString;
@@ -40,6 +42,7 @@ const Search = (props) => {
   };
   const handleSubmit = async (event) => {
     event.preventDefault();
+    initialRepos();
     getUserStart();
     executeSearch({ after: undefined, before: undefined });
   };
@@ -90,6 +93,7 @@ const mapDispatchToProps = (dispatch) => ({
   getUserStart: () => dispatch(fetchUserStart()),
   getUserSuccess: (users) => dispatch(fetchUserSuccess(users)),
   getUserFail: (error) => dispatch(fetchUserFail(error)),
+  initialRepos: () => dispatch(initialReposState()),
 });
 
 export default withApollo(connect(null, mapDispatchToProps)(Search));

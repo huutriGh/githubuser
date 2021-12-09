@@ -1,6 +1,6 @@
 import ReposType from './repository.type';
 
-export const initialState = () => ({
+export const initialReposState = () => ({
   type: ReposType.INITIAL_REPOS_STATE,
 });
 export const fetchReposStart = () => ({

@@ -3,13 +3,13 @@ import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import { useLocation } from 'react-router';
 import OpentIssue from '../components/OpenIssue/OpenIssue.component';
-
 //import Search from '../components/Search/Search.Component';
 import userStyles from './Users.style';
-const IssuesPage = (props) => {
+
+const IssuesPage = () => {
   const classes = userStyles();
   const { state } = useLocation();
-  console.log(state);
+
   return (
     <Container className={classes.layout}>
       <Paper elevation={3} className={classes.paper}>
