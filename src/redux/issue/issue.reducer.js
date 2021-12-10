@@ -44,7 +44,7 @@ const issueReducer = (state = INITIAL_STATE, action) => {
       const node = {
         ...action.payload.createIssue.issue,
       };
-      edges.push({ node });
+      edges.unshift({ node });
 
       state.issue.search.edges = edges;
       return {
@@ -57,6 +57,11 @@ const issueReducer = (state = INITIAL_STATE, action) => {
         ...state,
         error: action.payload,
         status: IssueType.CREATE_ISSUE_FAIL,
+      };
+    case IssueType.CREATE_ISSUE_CANCLE:
+      return {
+        ...state,
+        status: IssueType.CREATE_ISSUE_CANCLE,
       };
 
     default:

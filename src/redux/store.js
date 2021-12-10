@@ -1,6 +1,7 @@
 import { applyMiddleware, compose, createStore } from 'redux';
 import logger from 'redux-logger';
 import rootReducer from './root-reducer';
+import { persistStore } from 'redux-persist';
 
 const composeEnhancers =
   process.env.NODE_ENV !== 'production' &&
@@ -19,5 +20,6 @@ if (process.env.NODE_ENV === 'development') {
 
 const enhancers = [applyMiddleware(...middlewares)];
 export const store = createStore(rootReducer, composeEnhancers(...enhancers));
-
-export default store;
+export const persistor = persistStore(store);
+const obj = { store, persistor };
+export default obj;

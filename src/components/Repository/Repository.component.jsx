@@ -1,3 +1,4 @@
+import LinearProgress from '@mui/material/LinearProgress';
 import Typography from '@mui/material/Typography';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
@@ -27,11 +28,16 @@ const Repository = ({ repos = [], fetchStatus }) => {
     )
   );
 
-  return repos.length > 0 ? (
-    <ListContent rows={rows} name='Name' detail='Star / Watching' />
-  ) : fetchStatus !== '' && fetchStatus !== ReposType.FETCH_REPOS_START ? (
-    <Typography variant='h6'>No User found</Typography>
-  ) : null;
+  switch (fetchStatus) {
+    case ReposType.FETCH_REPOS_START:
+      return <LinearProgress />;
+    case ReposType.FETCH_REPOS_SUCCESS:
+      return <ListContent rows={rows} name='Name' detail='Star / Watching' />;
+    case ReposType.FETCH_REPOS_FAIL:
+      return <Typography variant='h6'>Opps!!! Something wrong</Typography>;
+    default:
+      return null;
+  }
 };
 
 const mapStateToProps = createStructuredSelector({

@@ -186,7 +186,7 @@ export default function ListContent({ rows = [], name, detail }) {
                       role='checkbox'
                       aria-checked={isItemSelected}
                       tabIndex={-1}
-                      key={row.name}
+                      key={row.reposId}
                       selected={isItemSelected}
                     >
                       <TableCell component='th' id={labelId} scope='row'>

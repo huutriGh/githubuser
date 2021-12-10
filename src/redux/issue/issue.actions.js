@@ -14,7 +14,7 @@ export const fetchIssueFail = (error) => ({
   type: IssueType.FETCH_ISSUE_FAIL,
   payload: error,
 });
-export const createIssueStart = (error) => ({
+export const createIssueStart = () => ({
   type: IssueType.CREATE_ISSUE_START,
 });
 
@@ -25,4 +25,7 @@ export const createIssueSuccess = (issue) => ({
 export const createIssueFail = (error) => ({
   type: IssueType.CREATE_ISSUE_FAIL,
   payload: error,
+});
+export const createIssueCancle = () => ({
+  type: IssueType.CREATE_ISSUE_CANCLE,
 });

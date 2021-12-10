@@ -9,6 +9,7 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import UserType from '../../redux/users/user.type';
 import { SearchReposQuery } from './../../GithubQuery/GithubQuery';
+import LinearProgress from '@mui/material/LinearProgress';
 import {
   fetchReposFail,
   fetchReposStart,
@@ -42,42 +43,50 @@ const UserList = (props) => {
     }
   };
 
-  return users.length > 0 ? (
-    <Stack
-      direction='row'
-      spacing={1}
-      alignItems='center'
-      justifyContent='center'
-      alignContent='center'
-      alignSelf='center'
-    >
-      {users.map((user) => (
-        <Grid
-          container
+  switch (fetchStatus) {
+    case UserType.FETCH_USER_START:
+      return <LinearProgress />;
+    case UserType.FETCH_USER_SUCCESS:
+      return (
+        <Stack
+          direction='row'
           spacing={1}
-          key={user.node.login}
+          alignItems='center'
           justifyContent='center'
           alignContent='center'
           alignSelf='center'
         >
-          <Grid item xs={12} sm={12} alignSelf='center'>
-            <IconButton onClick={() => getReposOfUser(user.node.login)}>
-              <Avatar
-                alt={user.node.login}
-                src={user.node.avatarUrl}
-                variant='square'
-              />
-            </IconButton>
-            <Typography variant='h6' color='blue'>
-              {user.node.login}
-            </Typography>
-          </Grid>
-        </Grid>
-      ))}
-    </Stack>
-  ) : fetchStatus !== '' && fetchStatus !== UserType.FETCH_USER_START ? (
-    <Typography variant='h6'>No User found</Typography>
-  ) : null;
+          {users.map((user) => (
+            <Grid
+              container
+              spacing={1}
+              key={user.node.login}
+              justifyContent='center'
+              alignContent='center'
+              alignSelf='center'
+            >
+              <Grid item xs={12} sm={12} alignSelf='center'>
+                <IconButton onClick={() => getReposOfUser(user.node.login)}>
+                  <Avatar
+                    alt={user.node.login}
+                    src={user.node.avatarUrl}
+                    variant='square'
+                  />
+                </IconButton>
+                <Typography variant='h6' color='blue'>
+                  {user.node.login}
+                </Typography>
+              </Grid>
+            </Grid>
+          ))}
+        </Stack>
+      );
+    case UserType.FETCH_USER_FAIL:
+      return <Typography variant='h6'>No User found</Typography>;
+
+    default:
+      return null;
+  }
 };
 const mapStateToProps = createStructuredSelector({
   users: selectUser,
