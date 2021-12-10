@@ -3,22 +3,22 @@ import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
+import LinearProgress from '@mui/material/LinearProgress';
 import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography';
 import React, { useState } from 'react';
 import { withApollo } from 'react-apollo';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import {
+  createIssueCancle,
   createIssueFail,
   createIssueStart,
   createIssueSuccess,
-  createIssueCancle,
 } from '../../redux/issue/issue.actions';
 import { selectIssuetatus } from '../../redux/issue/issue.selector';
-import { CreateIssue } from './../../GithubQuery/GithubQuery';
 import IssueType from '../../redux/issue/issue.type';
-import LinearProgress from '@mui/material/LinearProgress';
-import Typography from '@mui/material/Typography';
+import { CreateIssue } from './../../GithubQuery/GithubQuery';
 
 const CreateIssueForm = ({
   isOpen,
@@ -131,7 +131,7 @@ const mapDispatchToProps = (dispatch) => ({
   createIssueStart: () => dispatch(createIssueStart()),
   createIssueSuccess: (issues) => dispatch(createIssueSuccess(issues)),
   createIssueFail: (error) => dispatch(createIssueFail(error)),
-  createIssueCancle: (error) => dispatch(createIssueCancle()),
+  createIssueCancle: () => dispatch(createIssueCancle()),
 });
 export default withApollo(
   connect(mapStateToProps, mapDispatchToProps)(CreateIssueForm)
