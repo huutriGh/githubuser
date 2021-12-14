@@ -1,7 +1,6 @@
-import { Grid } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import Avatar from '@mui/material/Avatar';
-import IconButton from '@mui/material/IconButton';
-import Stack from '@mui/material/Stack';
+import LinearProgress from '@mui/material/LinearProgress';
 import Typography from '@mui/material/Typography';
 import React from 'react';
 import { withApollo } from 'react-apollo';
@@ -9,7 +8,6 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import UserType from '../../redux/users/user.type';
 import { SearchReposQuery } from './../../GithubQuery/GithubQuery';
-import LinearProgress from '@mui/material/LinearProgress';
 import {
   fetchReposFail,
   fetchReposStart,
@@ -48,38 +46,40 @@ const UserList = (props) => {
       return <LinearProgress />;
     case UserType.FETCH_USER_SUCCESS:
       return (
-        <Stack
-          direction='row'
-          spacing={1}
-          alignItems='center'
+        <Box
+          flexDirection='row'
+          display='flex'
+          overflow='scroll'
           justifyContent='center'
           alignContent='center'
           alignSelf='center'
+          alignItems='center'
+          margin={2}
         >
           {users.map((user) => (
-            <Grid
-              container
-              spacing={1}
+            <Box
               key={user.node.login}
               justifyContent='center'
               alignContent='center'
               alignSelf='center'
+              alignItems='center'
+              flexDirection='column'
             >
-              <Grid item xs={12} sm={12} alignSelf='center'>
-                <IconButton onClick={() => getReposOfUser(user.node.login)}>
-                  <Avatar
-                    alt={user.node.login}
-                    src={user.node.avatarUrl}
-                    variant='square'
-                  />
-                </IconButton>
-                <Typography variant='h6' color='blue'>
+              <Button onClick={() => getReposOfUser(user.node.login)} size='large' fullWidth >
+                <Typography
+                  color='blue'
+                  justifyContent='center'
+                  alignContent='center'
+                  alignSelf='center'
+                  alignItems='center'
+                >
+                  <Avatar alt={user.node.login} src={user.node.avatarUrl} />
                   {user.node.login}
                 </Typography>
-              </Grid>
-            </Grid>
+              </Button>
+            </Box>
           ))}
-        </Stack>
+        </Box>
       );
     case UserType.FETCH_USER_FAIL:
       return <Typography variant='h6'>No User found</Typography>;

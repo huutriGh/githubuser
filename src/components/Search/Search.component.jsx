@@ -1,6 +1,7 @@
 import TextField from '@mui/material/TextField';
 import SearchIcon from '@mui/icons-material/Search';
 import Grid from '@mui/material/Grid';
+
 import Button from '@mui/material/Button';
 import { withApollo } from 'react-apollo';
 import { useState } from 'react';
@@ -27,7 +28,7 @@ const Search = (props) => {
 
     let firstQuery = first;
     if (first === undefined && last === undefined) {
-      firstQuery = 5;
+      firstQuery = 100;
     }
     try {
       const { data } = await client.query({
